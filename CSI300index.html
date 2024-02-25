@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>沪深300指数</title>
+  <script src="assets/vendor/chart.js/chart.min.js"></script>
+  <script src="https://cdn.staticfile.org/echarts/5.4.3/echarts.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.2.2
+  
+  
+  
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a class="logo d-flex align-items-center" href="{{ url_for('CSI300index') }}">
+        <img src="assets/img/logo.png" alt="">
+        <span class="d-none d-lg-block" href="{{ url_for('CSI300index') }}">沪深300成分股数据分析系统</span>
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-heading">指数</li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('CSI300index') }}">
+          <i class="ri-earth-fill"></i>
+          <span>沪深300指数</span>
+        </a>
+      </li>
+      <li class="nav-heading">个股</li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('StockList') }}">
+          <i class="bx bxl-dropbox"></i>
+          <span>股票列表</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('StockOverview') }}">
+          <i class="ri-building-2-fill"></i>
+          <span>个股总览</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('StockInfo') }}">
+          <i class="ri-book-mark-fill"></i>
+          <span>个股简介</span>
+        </a>
+      </li><!-- End Contact Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('Top10StockShare') }}">
+          <i class="ri-account-circle-fill"></i>
+          <span>十大流通股东</span>
+        </a>
+      </li>
+
+    <li class="nav-heading">预测</li>
+     <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('StockForecast') }}">
+          <i class="ri-code-s-slash-fill"></i>
+          <span>指数预测</span>
+        </a>
+      </li>
+
+     <li class="nav-item">
+        <a class="nav-link collapsed" href="{{ url_for('StockForecast300') }}">
+          <i class="ri-compass-3-line"></i>
+          <span>个股预测</span>
+        </a>
+      </li>
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>沪深300指数市场全貌</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url_for('CSI300index') }}">首页</a></li>
+          <li class="breadcrumb-item"><a>指数</a></li>
+          <li class="breadcrumb-item active">指数简览</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">沪市股票数量 <span>| 占比(%)</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-bank2"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{sh_stock_count}}&nbsp;股</h6>
+                      <span class="text-success small pt-1 fw-bold">{{sh_stock_percentage}}&nbsp;%</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+
+                <div class="card-body">
+                  <h5 class="card-title"> 深市股票数量<span>| 占比(%)</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-bar-chart-line"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{sz_stock_count}}&nbsp;股</h6>
+                      <span class="text-success small pt-1 fw-bold">{{sz_stock_percentage}}&nbsp;%</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">总市值 <span>| (亿元)</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-yen"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{outPutpitalization}}</h6>
+                      <span class="text-danger small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1">币种:CNY</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            <!-- Reports -->
+            <div class="col-12">
+              <div class="card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>选择K图</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#" id="selectDayStock">日K</a></li>
+                    <li><a class="dropdown-item" href="#" id="selectWeekStock">周K</a></li>
+                    <li><a class="dropdown-item" href="#" id="selectMonthStock">月K</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">沪深300指数 <span>/2019年-2023年的表现</span></h5>
+
+                  <!-- Line Chart -->
+                <div id="CSI300index" style="display: flex; width: 1000px; height: 600px;"></div>
+
+           <script>
+
+            var chartDom = document.getElementById('CSI300index');
+            var ChartsetStock = echarts.init(chartDom);
+            let dayVolumeColor = [];
+            let dayVolume = {{ csi300dayvolume|tojson }};
+            let dayvalue = {{ csi300dayvalue|tojson }};
+            let daypriceChange = {{ daypriceChange|tojson }};
+            let daychangePercent = {{ daychangePercent|tojson }};
+            let dayTurnover = {{ dayTurnover|tojson }};
+
+            let WeekVolumeColor = [];
+            let WeekVolume = {{ csi300weekvolume|tojson }};
+            let Weekvalue = {{ csi300weekvalue|tojson }};
+            let WeekchangePercent = {{ weekchangePercent|tojson }};
+            let WeekTurnover = {{ weekTurnover|tojson }};
+            let Weekturn = {{ weekturn|tojson }};
+
+            let MonthVolumeColor = [];
+            let MonthVolume = {{ csi300monthvolume|tojson }};
+            let Monthvalue = {{ csi300monthvalue|tojson }};
+            let MonthchangePercent = {{ MonthchangePercent|tojson }};
+            let MonthTurnover = {{ MonthTurnover|tojson }};
+            let Monthturn = {{ Monthturn|tojson }};
+
+            const downColor = '#00da3c';
+            const upColor = '#ec0000';
+            function createDayVolumeColor(){
+                for (let i = 0; i < dayVolume.length; i++){
+                // 检查开盘价是否大于收盘价
+                    dayVolumeColor.push([i, dayVolume[i], dayvalue[i][0] > dayvalue[i][1] ? 1 : -1]); // 调整为三元素数组
+                }
+                return dayVolumeColor
+            }
+
+            function createWeekVolumeColor(){
+                for (let i = 0; i < WeekVolume.length; i++){
+                // 检查开盘价是否大于收盘价
+                    WeekVolumeColor.push([i, WeekVolume[i], Weekvalue[i][0] > Weekvalue[i][1] ? 1 : -1]); // 调整为三元素数组
+                }
+                return WeekVolumeColor
+            }
+
+            function createMonthVolumeColor(){
+                for (let i = 0; i < MonthVolume.length; i++){
+                // 检查开盘价是否大于收盘价
+                    MonthVolumeColor.push([i, MonthVolume[i], Monthvalue[i][0] > Monthvalue[i][1] ? 1 : -1]); // 调整为三元素数组
+                }
+                return MonthVolumeColor
+            }
+
+            function calculateMA(dayCount, data) {
+              var result = [];
+              for (var i = 0, len = data.length; i < len; i++) {
+                if (i < dayCount) {
+                  result.push('-');
+                  continue;
+                }
+                var sum = 0;
+                for (var j = 0; j < dayCount; j++) {
+                  sum += data[i - j][1];
+                }
+                result.push(+(sum / dayCount).toFixed(3));
+              }
+              return result;
+            }
+            getdayvolumedata = createDayVolumeColor()
+            getWeekvolumedata = createWeekVolumeColor()
+            getMonthvolumedata = createMonthVolumeColor()
+
+
+            var dayoption = (option = {
+                  animation: false,
+                  legend: {
+                    bottom: 10,
+                    left: 'center',
+                    data: ['K线', 'MA5', 'MA10', 'MA20', 'MA60', 'MA125']
+                  },
+                  tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                      type: 'cross',
+                        crossStyle: {
+                          color: '#ff5900'
+                      }
+                    },
+                    borderWidth: 1,
+                    borderColor: '#ccc',
+                    padding: 10,
+                    textStyle: {
+                      color: '#000'
+                    },
+                    position: function (pos, params, el, elRect, size) {
+                      const obj = {
+                        top: 10
+                      };
+                      obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                      return obj;
+                    },
+                      formatter: function (params) {
+                        let result = '';
+                        // 假设params数组中的第一个元素就是当前的x轴索引对应的参数
+                      // 这通常是正确的，因为ECharts的tooltip触发是基于x轴的点
+                      const index = params[0].dataIndex;
+                      // 使用index从数组变量中获取对应的涨跌额和涨跌幅数据
+                      const daypriceChangeValue = daypriceChange[index];
+                      const daychangePercentValue = daychangePercent[index];
+                      const dayTurnoverValue = dayTurnover[index];
+                        params.forEach(function (param) {
+                          const seriesName = param.seriesName;
+                          let valueText;
+                          // 特殊处理'成交量(手):'序列的数据展示
+                          if (seriesName === '成交量') {
+                            valueText = param.data[1] + ' (手)'; // 假设成交量数据是在数组的第二个位置
+                          } else if (seriesName === 'K线') {
+                            // 对于K线图，数据是一个数组，格式可能是[开盘价, 收盘价, 最低价, 最高价]
+                            const kLineData = param.data;
+                            valueText = `<br/>开盘价: ${kLineData[1]}<br/> 收盘价: ${kLineData[2]}
+                                <br/> 最低价: ${kLineData[3]}<br/> 最高价: ${kLineData[4]}<br/>`;
+                          } else {
+                            // 对于其他类型的序列（如MA线），直接展示值
+                            valueText = param.value;
+                          }
+                          // result += csi300daydateValue + '<br/>'
+                          result += param.marker + seriesName + ': ' + valueText + '<br/>'
+                        });
+                        result += '<br/>' + '涨跌额: ' + daypriceChangeValue + '<br/>'
+                            + '涨跌幅: ' + daychangePercentValue + '%<br/>'
+                            + '成交额: ' + dayTurnoverValue + '&nbsp;(万元)<br/>';
+                        return result;
+                      }
+                  },
+                  axisPointer: {
+                    link: [
+                      {
+                        xAxisIndex: 'all'
+                      }
+                    ],
+                    label: {
+                      backgroundColor: '#777'
+                    }
+                  },
+                  toolbox: {
+                    feature: {
+                      dataZoom: {
+                        yAxisIndex: false
+                      },
+                      brush: {
+                        type: ['lineX', 'clear']
+                      }
+                    }
+                  },
+                  brush: {
+                    xAxisIndex: 'all',
+                    brushLink: 'all',
+                    outOfBrush: {
+                      colorAlpha: 0.1
+                    }
+                  },
+                  visualMap: {
+                    show: false,
+                    seriesIndex: 6,
+                    dimension: 2,
+                    pieces: [
+                      {
+                        value: 1,
+                        color: downColor
+                      },
+                      {
+                        value: -1,
+                        color: upColor
+                      }
+                    ]
+                  },
+                  grid: [
+                    {
+                      left: '10%',
+                      right: '8%',
+                      height: '50%'
+                    },
+                    {
+                      left: '10%',
+                      right: '8%',
+                      top: '63%',
+                      height: '16%'
+                    }
+                  ],
+                  xAxis: [
+                    {
+                      type: 'category',
+                      data: {{csi300daydate|tojson}},
+                      boundaryGap: false,
+                      axisLine: { onZero: false },
+                      splitLine: { show: false },
+                      min: 'dataMin',
+                      max: 'dataMax',
+                      axisPointer: {
+                        z: 100
+                      }
+                    },
+                    {
+                      type: 'category',
+                      gridIndex: 1,
+                      data: {{csi300daydate|tojson}},
+                      boundaryGap: false,
+                      axisLine: { onZero: false },
+                      axisTick: { show: false },
+                      splitLine: { show: false },
+                      axisLabel: { show: false },
+                      min: 'dataMin',
+                      max: 'dataMax'
+                    }
+                  ],
+                  yAxis: [
+                    {
+                      scale: true,
+                      splitArea: {
+                        show: true
+                      }
+                    },
+                    {
+                      scale: true,
+                      gridIndex: 1,
+                      splitNumber: 2,
+                      axisLabel: { show: false },
+                      axisLine: { show: false },
+                      axisTick: { show: false },
+                      splitLine: { show: false }
+                    }
+                  ],
+                  dataZoom: [
+                    {
+                      type: 'inside',
+                      xAxisIndex: [0, 1],
+                      start: 98,
+                      end: 100
+                    },
+                    {
+                      show: true,
+                      xAxisIndex: [0, 1],
+                      type: 'slider',
+                      top: '85%',
+                      start: 98,
+                      end: 100
+                    }
+                  ],
+                  series: [
+                    {
+                      name: 'K线',
+                      type: 'candlestick',
+                      data: {{csi300dayvalue|tojson}},
+                      itemStyle: {
+                        color: upColor,
+                        color0: downColor,
+                        borderColor: undefined,
+                        borderColor0: undefined
+                      }
+                    },
+                    {
+                      name: 'MA5',
+                      type: 'line',
+                      data: calculateMA(5, {{csi300dayvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA10',
+                      type: 'line',
+                      data: calculateMA(10, {{csi300dayvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA20',
+                      type: 'line',
+                      data: calculateMA(20, {{csi300dayvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA60',
+                      type: 'line',
+                      data: calculateMA(60, {{csi300dayvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA125',
+                      type: 'line',
+                      data: calculateMA(125, {{csi300dayvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: '成交量',
+                      type: 'bar',
+                      xAxisIndex: 1,
+                      yAxisIndex: 1,
+                      data: getdayvolumedata
+                    },
+                  ]
+                })
+
+            var weekoption = (option = {
+                  animation: false,
+                  legend: {
+                    bottom: 10,
+                    left: 'center',
+                    data: ['K线', 'MA5', 'MA10', 'MA20', 'MA60', 'MA125']
+                  },
+                  tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                      type: 'cross',
+                        crossStyle: {
+                          color: '#ff5900'
+                      }
+                    },
+                    borderWidth: 1,
+                    borderColor: '#ccc',
+                    padding: 10,
+                    textStyle: {
+                      color: '#000'
+                    },
+                    position: function (pos, params, el, elRect, size) {
+                      const obj = {
+                        top: 10
+                      };
+                      obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                      return obj;
+                    },
+                      formatter: function (params) {
+                        let result = '';
+                        // 假设params数组中的第一个元素就是当前的x轴索引对应的参数
+                      // 这通常是正确的，因为ECharts的tooltip触发是基于x轴的点
+                      const index = params[0].dataIndex;
+                      // 使用index从数组变量中获取对应的涨跌额和涨跌幅数据
+                      const WeekturnValue = Weekturn[index];
+                      const WeekchangePercentValue = WeekchangePercent[index];
+                      const WeekTurnoverValue = WeekTurnover[index];
+                        params.forEach(function (param) {
+                          const seriesName = param.seriesName;
+                          let valueText;
+                          // 特殊处理'成交量(手):'序列的数据展示
+                          if (seriesName === '成交量') {
+                            valueText = param.data[1] + ' (万手)'; // 假设成交量数据是在数组的第二个位置
+                          } else if (seriesName === 'K线') {
+                            // 对于K线图，数据是一个数组，格式可能是[开盘价, 收盘价, 最低价, 最高价]
+                            const kLineData = param.data;
+                            valueText = `<br/>开盘价: ${kLineData[1]}<br/> 收盘价: ${kLineData[2]}
+                                <br/> 最低价: ${kLineData[3]}<br/> 最高价: ${kLineData[4]}<br/>`;
+                          } else {
+                            // 对于其他类型的序列（如MA线），直接展示值
+                            valueText = param.value;
+                          }
+                          // result += csi300daydateValue + '<br/>'
+                          result += param.marker + seriesName + ': ' + valueText + '<br/>'
+                        });
+                        result += '<br/>' + '涨跌幅: ' + WeekchangePercentValue + '%<br/>'
+                            + '成交额: ' + WeekTurnoverValue + '&nbsp;(亿元)<br/>'
+                             + '换手率: ' + WeekturnValue + '%<br/>';
+                        return result;
+                      }
+                  },
+                  axisPointer: {
+                    link: [
+                      {
+                        xAxisIndex: 'all'
+                      }
+                    ],
+                    label: {
+                      backgroundColor: '#777'
+                    }
+                  },
+                  toolbox: {
+                    feature: {
+                      dataZoom: {
+                        yAxisIndex: false
+                      },
+                      brush: {
+                        type: ['lineX', 'clear']
+                      }
+                    }
+                  },
+                  brush: {
+                    xAxisIndex: 'all',
+                    brushLink: 'all',
+                    outOfBrush: {
+                      colorAlpha: 0.1
+                    }
+                  },
+                  visualMap: {
+                    show: false,
+                    seriesIndex: 6,
+                    dimension: 2,
+                    pieces: [
+                      {
+                        value: 1,
+                        color: downColor
+                      },
+                      {
+                        value: -1,
+                        color: upColor
+                      }
+                    ]
+                  },
+                  grid: [
+                    {
+                      left: '10%',
+                      right: '8%',
+                      height: '50%'
+                    },
+                    {
+                      left: '10%',
+                      right: '8%',
+                      top: '63%',
+                      height: '16%'
+                    }
+                  ],
+                  xAxis: [
+                    {
+                      type: 'category',
+                      data: {{csi300weekdate|tojson}},
+                      boundaryGap: false,
+                      axisLine: { onZero: false },
+                      splitLine: { show: false },
+                      min: 'dataMin',
+                      max: 'dataMax',
+                      axisPointer: {
+                        z: 100
+                      }
+                    },
+                    {
+                      type: 'category',
+                      gridIndex: 1,
+                      data: {{csi300weekdate|tojson}},
+                      boundaryGap: false,
+                      axisLine: { onZero: false },
+                      axisTick: { show: false },
+                      splitLine: { show: false },
+                      axisLabel: { show: false },
+                      min: 'dataMin',
+                      max: 'dataMax'
+                    }
+                  ],
+                  yAxis: [
+                    {
+                      scale: true,
+                      splitArea: {
+                        show: true
+                      }
+                    },
+                    {
+                      scale: true,
+                      gridIndex: 1,
+                      splitNumber: 2,
+                      axisLabel: { show: false },
+                      axisLine: { show: false },
+                      axisTick: { show: false },
+                      splitLine: { show: false }
+                    }
+                  ],
+                  dataZoom: [
+                    {
+                      type: 'inside',
+                      xAxisIndex: [0, 1],
+                      start: 98,
+                      end: 100
+                    },
+                    {
+                      show: true,
+                      xAxisIndex: [0, 1],
+                      type: 'slider',
+                      top: '85%',
+                      start: 98,
+                      end: 100
+                    }
+                  ],
+                  series: [
+                    {
+                      name: 'K线',
+                      type: 'candlestick',
+                      data: {{csi300weekvalue|tojson}},
+                      itemStyle: {
+                        color: upColor,
+                        color0: downColor,
+                        borderColor: undefined,
+                        borderColor0: undefined
+                      }
+                    },
+                    {
+                      name: 'MA5',
+                      type: 'line',
+                      data: calculateMA(5, {{csi300weekvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA10',
+                      type: 'line',
+                      data: calculateMA(10, {{csi300weekvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA20',
+                      type: 'line',
+                      data: calculateMA(20, {{csi300weekvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA60',
+                      type: 'line',
+                      data: calculateMA(60, {{csi300weekvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA125',
+                      type: 'line',
+                      data: calculateMA(125, {{csi300weekvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: '成交量',
+                      type: 'bar',
+                      xAxisIndex: 1,
+                      yAxisIndex: 1,
+                      data: getWeekvolumedata
+                    },
+                  ]
+                })
+
+
+            var monthoption = (option = {
+                  animation: false,
+                  legend: {
+                    bottom: 10,
+                    left: 'center',
+                    data: ['K线', 'MA5', 'MA10', 'MA20']
+                  },
+                  tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                      type: 'cross',
+                        crossStyle: {
+                          color: '#ff6900'
+                      }
+                    },
+                    borderWidth: 1,
+                    borderColor: '#ccc',
+                    padding: 10,
+                    textStyle: {
+                      color: '#000'
+                    },
+                    position: function (pos, params, el, elRect, size) {
+                      const obj = {
+                        top: 10
+                      };
+                      obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                      return obj;
+                    },
+                      formatter: function (params) {
+                        let result = '';
+                        // 假设params数组中的第一个元素就是当前的x轴索引对应的参数
+                      // 这通常是正确的，因为ECharts的tooltip触发是基于x轴的点
+                      const index = params[0].dataIndex;
+                      // 使用index从数组变量中获取对应的涨跌额和涨跌幅数据
+                      const MonthturnValue = Monthturn[index];
+                      const MonthchangePercentValue = MonthchangePercent[index];
+                      const MonthTurnoverValue = MonthTurnover[index];
+                        params.forEach(function (param) {
+                          const seriesName = param.seriesName;
+                          let valueText;
+                          // 特殊处理'成交量(手):'序列的数据展示
+                          if (seriesName === '成交量') {
+                            valueText = param.data[1] + ' (万手)'; // 假设成交量数据是在数组的第二个位置
+                          } else if (seriesName === 'K线') {
+                            // 对于K线图，数据是一个数组，格式可能是[开盘价, 收盘价, 最低价, 最高价]
+                            const kLineData = param.data;
+                            valueText = `<br/>开盘价: ${kLineData[1]}<br/> 收盘价: ${kLineData[2]}
+                                <br/> 最低价: ${kLineData[3]}<br/> 最高价: ${kLineData[4]}<br/>`;
+                          } else {
+                            // 对于其他类型的序列（如MA线），直接展示值
+                            valueText = param.value;
+                          }
+                          // result += csi300daydateValue + '<br/>'
+                          result += param.marker + seriesName + ': ' + valueText + '<br/>'
+                        });
+                        result += '<br/>' + '涨跌幅: ' + MonthchangePercentValue + '%<br/>'
+                            + '成交额: ' + MonthTurnoverValue + '&nbsp;(亿元)<br/>'
+                             + '换手率: ' + MonthturnValue + '%<br/>';
+                        return result;
+                      }
+                  },
+                  axisPointer: {
+                    link: [
+                      {
+                        xAxisIndex: 'all'
+                      }
+                    ],
+                    label: {
+                      backgroundColor: '#777'
+                    }
+                  },
+                  toolbox: {
+                    feature: {
+                      dataZoom: {
+                        yAxisIndex: false
+                      },
+                      brush: {
+                        type: ['lineX', 'clear']
+                      }
+                    }
+                  },
+                  brush: {
+                    xAxisIndex: 'all',
+                    brushLink: 'all',
+                    outOfBrush: {
+                      colorAlpha: 0.1
+                    }
+                  },
+                  visualMap: {
+                    show: false,
+                    seriesIndex: 6,
+                    dimension: 2,
+                    pieces: [
+                      {
+                        value: 1,
+                        color: downColor
+                      },
+                      {
+                        value: -1,
+                        color: upColor
+                      }
+                    ]
+                  },
+                  grid: [
+                    {
+                      left: '10%',
+                      right: '8%',
+                      height: '50%'
+                    },
+                    {
+                      left: '10%',
+                      right: '8%',
+                      top: '63%',
+                      height: '16%'
+                    }
+                  ],
+                  xAxis: [
+                    {
+                      type: 'category',
+                      data: {{csi300monthdate|tojson}},
+                      boundaryGap: false,
+                      axisLine: { onZero: false },
+                      splitLine: { show: false },
+                      min: 'dataMin',
+                      max: 'dataMax',
+                      axisPointer: {
+                        z: 100
+                      }
+                    },
+                    {
+                      type: 'category',
+                      gridIndex: 1,
+                      data: {{csi300monthdate|tojson}},
+                      boundaryGap: false,
+                      axisLine: { onZero: false },
+                      axisTick: { show: false },
+                      splitLine: { show: false },
+                      axisLabel: { show: false },
+                      min: 'dataMin',
+                      max: 'dataMax'
+                    }
+                  ],
+                  yAxis: [
+                    {
+                      scale: true,
+                      splitArea: {
+                        show: true
+                      }
+                    },
+                    {
+                      scale: true,
+                      gridIndex: 1,
+                      splitNumber: 2,
+                      axisLabel: { show: false },
+                      axisLine: { show: false },
+                      axisTick: { show: false },
+                      splitLine: { show: false }
+                    }
+                  ],
+                  dataZoom: [
+                    {
+                      type: 'inside',
+                      xAxisIndex: [0, 1],
+                      start: 98,
+                      end: 100
+                    },
+                    {
+                      show: true,
+                      xAxisIndex: [0, 1],
+                      type: 'slider',
+                      top: '85%',
+                      start: 98,
+                      end: 100
+                    }
+                  ],
+                  series: [
+                    {
+                      name: 'K线',
+                      type: 'candlestick',
+                      data: {{csi300monthvalue|tojson}},
+                      itemStyle: {
+                        color: upColor,
+                        color0: downColor,
+                        borderColor: undefined,
+                        borderColor0: undefined
+                      }
+                    },
+                    {
+                      name: 'MA5',
+                      type: 'line',
+                      data: calculateMA(5, {{csi300monthvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA10',
+                      type: 'line',
+                      data: calculateMA(10, {{csi300monthvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA20',
+                      type: 'line',
+                      data: calculateMA(20, {{csi300monthvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA60',
+                      type: 'line',
+                      data: calculateMA(60, {{csi300monthvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: 'MA125',
+                      type: 'line',
+                      data: calculateMA(125, {{csi300monthvalue|tojson}}),
+                      smooth: true,
+                      lineStyle: {
+                        opacity: 0.5
+                      }
+                    },
+                    {
+                      name: '成交量',
+                      type: 'bar',
+                      xAxisIndex: 1,
+                      yAxisIndex: 1,
+                      data: getMonthvolumedata
+                    },
+                  ]
+                })
+
+                ChartsetStock.setOption(dayoption);
+
+              function createMenuHandlerStockK(option) {
+              return function(event) {
+                event.preventDefault(); // 阻止默认行为
+                switch(option) {
+                  case 'day':
+                    ChartsetStock.setOption(dayoption);
+                    break;
+                  case 'week':
+                    ChartsetStock.setOption(weekoption);
+                    break;
+                  case 'month':
+                    ChartsetStock.setOption(monthoption);
+                    break;
+                }
+              };
+            }
+
+            // 绑定事件处理函数
+            document.getElementById('selectDayStock').addEventListener('click', createMenuHandlerStockK('day'));
+            document.getElementById('selectWeekStock').addEventListener('click', createMenuHandlerStockK('week'));
+            document.getElementById('selectMonthStock').addEventListener('click', createMenuHandlerStockK('month'));
+
+                  </script>
+                  <!-- End Line Chart -->
+
+                </div>
+
+              </div>
+            </div><!-- End Reports -->
+
+            <!-- Recent Sales -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+
+                <div class="card-body">
+                  <h5 class="card-title">北向资金 <span>| 2019年-2023年的每日流向以及总流向(亿元)</span></h5>
+                    <div id="northbound" style="display: flex; width: 1000px; height: 600px;"></div>
+                   <script>
+                       var chartDom = document.getElementById('northbound');
+                       var ChartSetNorthBound = echarts.init(chartDom);
+                       var option;
+                       ChartSetNorthBound.setOption(
+                        option = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    crossStyle: {
+                                        color: '#8c00ff'
+                                    }
+                                }
+                            },
+                            toolbox: {
+                                feature: {
+                                    dataView: {show: true, readOnly: false},
+                                    magicType: {show: true, type: ['line', 'bar']},
+                                    restore: {show: true},
+                                    saveAsImage: {show: true},
+                                    dataZoom: {
+                                    yAxisIndex: false
+                                    },
+                                }
+                            },
+                             legend: {
+                                data: ['北向资金当日', '北向资金累计净买入']
+                              },
+                            xAxis: [
+                                {type: 'category',
+                                data:{{ NorthboundDate|tojson }},
+                                axisPointer:{
+                                type: 'shadow'
+                                }
+                            }
+                       ],
+                       yAxis: [
+                           {
+                               type: 'value',
+                               name: '当日买卖',
+                               min: "dataMin",
+                               max: "dataMax",
+                               axisLabel: {
+                                   formatter: '{value} 亿元'
+                               },
+                               splitLine: { // 在这里设置
+                                    show: false // 不显示x轴的刻度线
+                                }
+                           },
+                           {
+                               type: 'value',
+                               name: '累计买卖',
+                               min: "dataMin",
+                               max: "dataMax",
+                               axisLabel: {
+                                   formatter: '{value} 亿元'
+                               },
+                               splitLine: { // 在这里设置
+                                    show: false // 不显示x轴的刻度线
+                                }
+                           }
+                       ],
+                        dataZoom: [
+                        {
+                          type: 'inside',
+                          xAxisIndex: [0, 1],
+                          start: 98,
+                          end: 100
+                        },
+                        {
+                          show: true,
+                          xAxisIndex: [0, 1],
+                          type: 'slider',
+                          top: '95%',
+                          start: 98,
+                          end: 100
+                        }
+                      ],
+                       series: [
+                           {
+                               name: '北向资金当日',
+                               type: 'bar',
+                               itemStyle: {
+                                   color: function (params) {
+                                       // params.value 是当前数据点的值
+                                       return params.value > 0 ? '#ff0000' : '#00da3c';
+                                   }
+                               },
+                               tooltip: {
+                                   valueFormatter: function (value) {
+                                       if (value > 0) {
+                                           return '买入 ' + value + ' 亿元';
+                                       } else {
+                                           return '卖出 ' + value + ' 亿元';
+                                       }
+                                   }
+                               },
+                               data: {{ NorthboundBuy|tojson }}
+                           },
+                           {
+                               name: '北向资金累计净买入',
+                               type: 'line',
+                               color: 'yellow',
+                               yAxisIndex: 1,
+                               tooltip: {
+                                   valueFormatter: function (value) {
+                                       return value + ' 亿元';
+                                   }
+                               },
+                               data: {{ NorthboundCumulativeBuy|tojson }}
+                           }
+                        ]
+                       })
+                   </script>
+
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+            <!-- Top Selling -->
+            <div class="col-12">
+              <div class="card top-selling overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>PE(TTM)/PB</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#" id="selectPE">PE(TTM)</a></li>
+                    <li><a class="dropdown-item" href="#" id="selectPB">PB</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body pb-0">
+                  <h5 class="card-title">沪深300指数的估值<span>|2019年-2023年 PE(TTM)/PB</span></h5>
+                    <div id="csi300indexPEPB" style="display: flex; width: 1000px; height: 700px;"></div>
+                    <script>
+                       var chartDom = document.getElementById('csi300indexPEPB');
+                       var chartsSetPRPB = echarts.init(chartDom);
+
+                       var PEoption = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    crossStyle: {
+                                        color: '#0800ff'
+                                    }
+                                }
+                            },
+                            toolbox: {
+                                feature: {
+                                    dataView: {show: true, readOnly: false},
+                                    magicType: {show: false, type: ['line']},
+                                    restore: {show: true},
+                                    saveAsImage: {show: true},
+                                    dataZoom: {
+                                    yAxisIndex: false
+                                    },
+                                }
+                            },
+                             legend: {
+                                data: ['沪深300指数收盘价', '沪深300指数PE(TTM)']
+                              },
+                            xAxis: [
+                                {type: 'category',
+                                data:{{ CSIPEDate|tojson }},
+                                axisPointer: {
+                                    type: 'shadow'
+                                }
+                            }
+                       ],
+                       yAxis: [
+                           {
+                               type: 'value',
+                               name: '沪深300指数收盘价',
+                               min: "dataMin",
+                               max: "dataMax",
+                               axisLabel: {
+                                   formatter: '{value} '
+                               },
+                                splitLine: { // 在这里设置
+                                show: false // 不显示x轴的刻度线
+                            }
+                           },
+                           {
+                               type: 'value',
+                               name: '沪深300指数PE(TTM)',
+                               min: "dataMin",
+                               max: "dataMax",
+                               axisLabel: {
+                                   formatter: '{value} '
+                               },
+                                splitLine: { // 在这里设置
+                                show: false // 不显示x轴的刻度线
+                            }
+                           }
+                       ],
+                        dataZoom: [
+                        {
+                          type: 'inside',
+                          xAxisIndex: [0, 1],
+                          start: 98,
+                          end: 100
+                        },
+                        {
+                          show: true,
+                          xAxisIndex: [0, 1],
+                          type: 'slider',
+                          top: '95%',
+                          start: 98,
+                          end: 100
+                        }
+                      ],
+                       series: [
+                           {
+                               name: '沪深300指数收盘价',
+                               type: 'line',
+                               color: '#00a6ff',
+                               data: {{ CSIPEValue|tojson }}
+                           },
+                           {
+                               name: '沪深300指数PE(TTM)',
+                               type: 'line',
+                               color: '#fff000',
+                               yAxisIndex: 1,
+                               data: {{ PE|tojson }},
+                                markLine: {
+                                silent: true,
+                                symbol: ['none', 'none'], // 去掉标记点
+                                label: {
+                                      formatter: function(params) {
+                                        // 根据线的不同类型显示不同的标注文本
+                                        if (params.value === {{ wwmiddlePE|tojson }}) {
+                                            return `PE中位数: ${params.value}`;
+                                        } else if (params.value === {{ PEpercentile70|tojson }} ) {
+                                            return `PE风险区: ${params.value}`;
+                                        } else if (params.value === {{ PEpercentile30|tojson }} ) {
+                                            return `PE机会区: ${params.value}`;
+                                        }
+                                    },
+                                    position: 'end'
+                                },
+                                lineStyle: {
+                                    color: function(params) {
+                                    // 根据线的不同类型显示不同的颜色
+                                    if (params.value === {{ wwmiddlePE|tojson }}) {
+                                        return '#8cd5ff'; // 原有的蓝色虚线
+                                    } else if (params.value === {{ PEpercentile70|tojson }}) {
+                                        return '#ff0000'; // 红色线
+                                    } else if (params.value === {{ PEpercentile30|tojson }}) {
+                                        return '#00ff09'; // 绿色线
+                                    }
+                                    }
+                                },
+                                data: [
+                                     { yAxis: {{ wwmiddlePE|tojson }}, lineStyle: { color: '#8cd5ff', type: 'dashed' } }, // 原有的蓝色虚线
+                                     { yAxis: {{ PEpercentile70|tojson }}, lineStyle: { color: '#ff0000', type: 'dashed' } }, // 新的红色线
+                                     { yAxis: {{ PEpercentile30|tojson }}, lineStyle: { color: '#00ff09', type: 'dashed' } } // 新的绿色线
+                                ]
+                            },
+                               markArea: {
+                                data: [
+                                    [ // 为大于等于 PBpercentile70 的区域着色
+                                        { yAxis: {{ PEpercentile70|tojson }}, itemStyle: { color: '#ff4b3c',opacity: 0.1 } },
+                                        { yAxis: 'max' }
+                                    ],
+                                    [ // 为小于等于 PBpercentile30 的区域着色
+                                        { yAxis: 'min' },
+                                        { yAxis: {{ PEpercentile30|tojson }}, itemStyle: { color: '#59ff5d',opacity: 0.1 } }
+                                    ]
+                                ]
+                            }
+                           }
+                        ]
+                       }
+
+                       var PBoption = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    crossStyle: {
+                                        color: '#0800ff'
+                                    }
+                                }
+                            },
+                            toolbox: {
+                                feature: {
+                                    dataView: {show: true, readOnly: false},
+                                    magicType: {show: false, type: ['line']},
+                                    restore: {show: true},
+                                    saveAsImage: {show: true},
+                                    dataZoom: {
+                                    yAxisIndex: false
+                                    },
+                                }
+                            },
+                             legend: {
+                                data: ['沪深300指数收盘价', '沪深300指数PB']
+                              },
+                            xAxis: [
+                                {type: 'category',
+                                data:{{ CSIPBDate|tojson }},
+                                axisPointer: {
+                                    type: 'shadow'
+                                }
+                            }
+                       ],
+                       yAxis: [
+                           {
+                               type: 'value',
+                               name: '沪深300指数收盘价',
+                               min: "dataMin",
+                               max: "dataMax",
+                               axisLabel: {
+                                   formatter: '{value} '
+                               },
+                                splitLine: { // 在这里设置
+                                show: false // 不显示x轴的刻度线
+                            }
+                           },
+                           {
+                               type: 'value',
+                               name: '沪深300指数PB',
+                               min: "dataMin",
+                               max: "dataMax",
+                               axisLabel: {
+                                   formatter: '{value} '
+                               },
+                                splitLine: { // 在这里设置
+                                show: false // 不显示x轴的刻度线
+                            }
+                           }
+                       ],
+                        dataZoom: [
+                        {
+                          type: 'inside',
+                          xAxisIndex: [0, 1],
+                          start: 98,
+                          end: 100
+                        },
+                        {
+                          show: true,
+                          xAxisIndex: [0, 1],
+                          type: 'slider',
+                          top: '95%',
+                          start: 98,
+                          end: 100
+                        }
+                      ],
+                       series: [
+                           {
+                               name: '沪深300指数收盘价',
+                               type: 'line',
+                               color: '#00a6ff',
+                               data: {{ CSIPBValue|tojson }}
+                           },
+                           {
+                               name: '沪深300指数PB',
+                               type: 'line',
+                               color: '#fff000',
+                               yAxisIndex: 1,
+                               data: {{ PB|tojson }},
+                                markLine: {
+                                silent: true,
+                                symbol: ['none', 'none'], // 去掉标记点
+                                label: {
+                                      formatter: function(params) {
+                                        // 根据线的不同类型显示不同的标注文本
+                                        if (params.value === {{ wwmiddlePB|tojson }}) {
+                                            return `PB中位数: ${params.value}`;
+                                        } else if (params.value === {{ PBpercentile70|tojson }} ) {
+                                            return `PB风险区: ${params.value}`;
+                                        } else if (params.value === {{ PBpercentile30|tojson }} ) {
+                                            return `PB机会区: ${params.value}`;
+                                        }
+                                    },
+                                    position: 'end'
+                                },
+                                lineStyle: {
+                                    color: function(params) {
+                                    // 根据线的不同类型显示不同的颜色
+                                    if (params.value === {{ wwmiddlePB|tojson }}) {
+                                        return '#8cd5ff'; // 原有的蓝色虚线
+                                    } else if (params.value === {{ PBpercentile70|tojson }}) {
+                                        return '#ff0000'; // 红色线
+                                    } else if (params.value === {{ PBpercentile30|tojson }}) {
+                                        return '#00ff09'; // 绿色线
+                                    }
+                                    }
+                                },
+                                data: [
+                                     { yAxis: {{ wwmiddlePB|tojson }}, lineStyle: { color: '#8cd5ff', type: 'dashed' } }, // 原有的蓝色虚线
+                                     { yAxis: {{ PBpercentile70|tojson }}, lineStyle: { color: '#ff0000', type: 'dashed' } }, // 新的红色线
+                                     { yAxis: {{ PBpercentile30|tojson }}, lineStyle: { color: '#00ff09', type: 'dashed' } } // 新的绿色线
+                                ]
+                            },
+                               markArea: {
+                                data: [
+                                    [ // 为大于等于 PBpercentile70 的区域着色
+                                        { yAxis: {{ PBpercentile70|tojson }}, itemStyle: { color: '#ff4b3c',opacity: 0.1 } },
+                                        { yAxis: 'max' }
+                                    ],
+                                    [ // 为小于等于 PBpercentile30 的区域着色
+                                        { yAxis: 'min' },
+                                        { yAxis: {{ PBpercentile30|tojson }}, itemStyle: { color: '#59ff5d',opacity: 0.1 } }
+                                    ]
+                                ]
+                            }
+                           }
+                        ]
+                       }
+
+                       chartsSetPRPB.setOption(PEoption);
+                       
+
+                        // 首先，直接通过ID找到 <div id="filterDiv"> 元素
+                    var selectCSI300PEPBID = document.getElementById('CSI300PEPB');
+
+                    function createMenuHandlerPEPB(option) {
+                      return function(event) {
+                        event.preventDefault(); // 阻止默认行为
+                        switch(option) {
+                          case 'PE':
+                            chartsSetPRPB.setOption(PEoption, true);
+                            break;
+                          case 'PB':
+                            chartsSetPRPB.setOption(PBoption, true);
+                            break;
+                        }
+                      };
+                    }
+
+                    document.getElementById('selectPE').addEventListener('click', createMenuHandlerPEPB('PE'));
+                    document.getElementById('selectPB').addEventListener('click', createMenuHandlerPEPB('PB'));
+                    </script>
+
+                </div>
+
+              </div>
+            </div><!-- End Top Selling -->
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+          <!-- Recent Activity -->
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">沪深300成分股行业分布 <span>| 占全市场行业:&nbsp;{{top12cupancy}}%</span></h5>
+
+              <div id="stockIndustries" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#stockIndustries")).setOption({
+                    legend: {
+                        top: 'bottom'
+                      },
+                      toolbox: {
+                        show: true,
+                        feature: {
+                          mark: { show: true },
+                          dataView: { show: true, readOnly: false },
+                          restore: { show: true },
+                          saveAsImage: { show: true }
+                        }
+                      },
+                      series: [
+                        {
+                          name: 'Nightingale Chart',
+                          type: 'pie',
+                          radius: [50, 140],
+                          center: ['50%', '50%'],
+                          roseType: 'radius',
+                          itemStyle: {
+                            borderRadius: 12
+                          },
+                            label: {
+                            show: false
+                          },
+                          emphasis: {
+                            label: {
+                              show: true,
+                              formatter: '{b}: {d}%'
+                            }
+                          },
+                          data: [
+                            {% for industry, count in zip(stockIndustries, stockcount) %}
+                            { value: {{ count }}, name: '{{ industry }}' },
+                            {% endfor %}
+                            ]
+                        }
+                      ]
+                  });
+                });
+              </script>
+            </div>
+          </div><!-- End Recent Activity -->
+
+          <!-- Budget Report -->
+          <div class="card">
+            <div class="card-body pb-0">
+              <h5 class="card-title">沪深300成分股市值分布(亿元) <span>| 数量(股)占比(%)</span></h5>
+
+              <div id="markvuluetype" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                  var markvuluetype = {{ markvuluetype | tojson }};
+                  var typecount = {{ typecount | tojson }};
+                document.addEventListener("DOMContentLoaded", () => {
+                  var budgetChart = echarts.init(document.querySelector("#markvuluetype")).setOption({
+                     xAxis: {
+                        type: 'category',
+                        data: markvuluetype
+                      },
+                      yAxis: {
+                        type: 'value'
+                      },
+                      series: [
+                        {
+                          data: typecount,
+                          type: 'bar',
+                          showBackground: true,
+                          backgroundStyle: {
+                            color: 'rgba(180, 180, 180, 0.2)'
+                          }
+                        }
+                      ],
+                       tooltip: {
+                        trigger: 'axis', // 鼠标悬浮触发tooltip
+                        axisPointer: {
+                            type: 'shadow' // tooltip显示在柱子的阴影位置
+                        },
+                        formatter: function(params) {
+                            return params[0].name + '<br>' +
+                                '数量: ' + params[0].value + '股'+ '<br>' +
+                                '占比: ' + (params[0].value / typecount.reduce((a, b) => a + b, 0) * 100).toFixed(2) + '%';
+                            }
+                        }
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- End Budget Report -->
+
+          <!-- Website Traffic -->
+          <div class="card">
+
+            <div class="card-body pb-0">
+              <h5 class="card-title">沪深300成分股交易板块分布 <span>| 占比(%)</span></h5>
+
+              <div id="StockTradingSection" style="min-height: 400px;" class="echart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  echarts.init(document.querySelector("#StockTradingSection")).setOption({
+                    tooltip: {
+                      trigger: 'item',
+                      formatter: '{b}: {c} %'
+                    },
+                    legend: {
+                      top: '5%',
+                      left: 'center'
+                    },
+                    series: [{
+                      name: '交易板块',
+                      type: 'pie',
+                      radius: ['40%', '70%'],
+                      avoidLabelOverlap: false,
+                      label: {
+                        show: false,
+                        position: 'center'
+                      },
+                      emphasis: {
+                        label: {
+                          show: true,
+                          fontSize: '18',
+                          fontWeight: 'bold'
+                        }
+                      },
+                      labelLine: {
+                        show: false
+                      },
+                      data: [{
+                          value: 10.24,
+                          name: '创业板'
+                        },
+                        {
+                          value: 24.19,
+                          name: '深圳主板'
+                        },
+                        {
+                          value: 3.48,
+                          name: '科创板'
+                        },
+                        {
+                          value: 62.09,
+                          name: '上海主板'
+                        }
+                      ]
+                    }]
+                  });
+                });
+              </script>
+
+            </div>
+          </div><!-- End Website Traffic -->
+
+        </div><!-- End Right side columns -->
+      </div>
+    </section>
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      20级大数据3班 2040131266 吕健鸿 &copy; 2024年4月
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+    
+      
+      
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.min.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+    <!-- 引入 jQuery，用于处理 $.get 请求 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
