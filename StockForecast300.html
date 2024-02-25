@@ -206,8 +206,35 @@
                             lineStyle: {
                                type: 'dashed'
                             }, // 这里设置为虚线
-                          data: {{ AgeForecastClose|tojson }}
-                        }
+                          data: {{ AgeForecastClose|tojson }},
+                          markLine: {
+                            symbol: 'none', // 这里设置为'none'以去除箭头
+                            data: [
+                              {
+                                xAxis: '2023-12-29',
+                                label: {
+                                  show: false,
+                                },
+                                lineStyle: {
+                                  color: '#0099ff',
+                                  type: 'solid'
+                                }
+                              },
+                                {
+                                xAxis: '2024-01-02',
+                                label: {
+                                  show: true,
+                                  formatter: '2024年后股价走势&预测',
+                                  position: 'end'
+                                },
+                                lineStyle: {
+                                  color: '#b700ff',
+                                  type: 'solid'
+                                }
+                              }
+                            ]
+                          }
+                        },
                       ]
                     };
 
