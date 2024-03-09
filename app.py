@@ -16,7 +16,17 @@ app.jinja_env.globals.update(zip=zip)
 
 @app.route('/')
 def root():
-    return redirect(url_for('CSI300index'))
+    return redirect(url_for('login'))
+
+
+@app.route('/login.html')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/register.html')
+def register():
+    return render_template('register.html')
 
 
 @app.route('/CSI300index.html')
