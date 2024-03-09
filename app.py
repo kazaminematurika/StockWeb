@@ -9,6 +9,8 @@ import selectStockListSQL
 import selectindexmiddleSQL
 import SelectCSI300ForecastSQL
 import SelectStockForecastSQL
+from loginSQL import is_null, is_existed, exist_user
+from registerSQL import add_user
 
 app = Flask(__name__, static_folder='assets', template_folder='.')
 app.jinja_env.globals.update(zip=zip)
@@ -19,13 +21,39 @@ def root():
     return redirect(url_for('login'))
 
 
-@app.route('/login.html')
+@app.route('/login.html', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':  # 注册发送的请求为POST请求
+        username = request.form['username']
+        password = request.form['password']
+        if is_null(username, password):
+            login_massage = "账号和密码是必填"
+            return render_template('login.html', message=login_massage)
+        elif is_existed(username, password):
+            return render_template('CSI300index.html', username=username)
+        elif exist_user(username):
+            login_massage = "密码错误，请输入正确密码"
+            return render_template('login.html', message=login_massage)
+        else:
+            login_massage = "不存在该用户，请先注册"
+            return render_template('login.html', message=login_massage)
     return render_template('login.html')
 
 
-@app.route('/register.html')
+@app.route('/register.html', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if is_null(username, password):
+            login_massage = "账号和密码是必填"
+            return render_template('register.html', message=login_massage)
+        elif exist_user(username):
+            login_massage = "用户已存在，请直接登录"
+            return render_template('register.html', message=login_massage)
+        else:
+            add_user(request.form['username'], request.form['password'])
+            return render_template('CSI300index.html', username=username)
     return render_template('register.html')
 
 

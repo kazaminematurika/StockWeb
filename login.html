@@ -57,22 +57,20 @@
                     <p class="text-center small">输入你的 用户名 以及 密码</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <form class="row g-3 needs-validation" method="post">
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">用户名</label>
                       <div class="input-group has-validation">
                         <input type="text" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter your username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">密码</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
-                      <div class="invalid-feedback">Please enter your password!</div>
                     </div>
-
+                    {% if message %} {{message}} {% endif %}
                     <div class="col-12">
                       <div class="form-check">
                         <a class="form-check-label" href="{{ url_for('CSI300index') }}">随便看看, 不登录</a>
@@ -82,7 +80,7 @@
                       <button class="btn btn-primary w-100" type="submit">登录</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">没有账号 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="register.html">注册账号</a></p>
+                      <p class="small mb-0">没有账号 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('register') }}">注册账号</a></p>
                     </div>
                   </form>
 
@@ -93,7 +91,6 @@
 
             </div>
           </div>
-        </div>
 
       </section>
 
