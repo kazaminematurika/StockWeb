@@ -30,7 +30,7 @@ def login():
             login_massage = "账号和密码是必填"
             return render_template('login.html', message=login_massage)
         elif is_existed(username, password):
-            return render_template('CSI300index.html', username=username)
+            return render_template('userProfile.html', username=username)
         elif exist_user(username):
             login_massage = "密码错误，请输入正确密码"
             return render_template('login.html', message=login_massage)
@@ -53,8 +53,13 @@ def register():
             return render_template('register.html', message=login_massage)
         else:
             add_user(request.form['username'], request.form['password'])
-            return render_template('CSI300index.html', username=username)
+            return render_template('userProfile.html', username=username)
     return render_template('register.html')
+
+
+@app.route('/userProfile.html')
+def userProfile():
+    return render_template('userProfile.html')
 
 
 @app.route('/CSI300index.html')
