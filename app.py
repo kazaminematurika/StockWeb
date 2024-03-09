@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session
 
 import SelectStockOverviewSQL
 import SelectTop10StockShareSQL
@@ -14,6 +14,7 @@ from registerSQL import add_user
 
 app = Flask(__name__, static_folder='assets', template_folder='.')
 app.jinja_env.globals.update(zip=zip)
+app.secret_key = 'Ginka'
 
 
 @app.route('/')
@@ -30,6 +31,7 @@ def login():
             login_massage = "账号和密码是必填"
             return render_template('login.html', message=login_massage)
         elif is_existed(username, password):
+            session['username'] = username
             return render_template('userProfile.html', username=username)
         elif exist_user(username):
             login_massage = "密码错误，请输入正确密码"
@@ -59,7 +61,8 @@ def register():
 
 @app.route('/userProfile.html')
 def userProfile():
-    return render_template('userProfile.html')
+    username = session.get('username', '游客')
+    return render_template('userProfile.html', username=username)
 
 
 @app.route('/CSI300index.html')
@@ -75,6 +78,8 @@ def CSI300index():
     NorthboundDate, NorthboundBuy, NorthboundCumulativeBuy = selectindexmiddleSQL.northbound()
     CSIPBDate, CSIPBValue, PB, wwmiddlePB, PBpercentile30, PBpercentile70 = selectindexmiddleSQL.CSIPBinfo()
     CSIPEDate, CSIPEValue, PE, wwmiddlePE, PEpercentile30, PEpercentile70 = selectindexmiddleSQL.CSIPEinfo()
+
+    username = session.get('username', '游客')
 
     return render_template('CSI300index.html',
                            sh_stock_count=sh_count, sh_stock_percentage=sh_percentage,
@@ -92,20 +97,23 @@ def CSI300index():
                            CSIPBDate=CSIPBDate, CSIPBValue=CSIPBValue, PB=PB, wwmiddlePB=wwmiddlePB,
                            PBpercentile30=PBpercentile30, PBpercentile70=PBpercentile70,
                            CSIPEDate=CSIPEDate, CSIPEValue=CSIPEValue, PE=PE, wwmiddlePE=wwmiddlePE,
-                           PEpercentile30=PEpercentile30, PEpercentile70=PEpercentile70
+                           PEpercentile30=PEpercentile30, PEpercentile70=PEpercentile70,
+                           username=username
                            )
 
 
 @app.route('/StockList.html')
 def StockList():
     StockID, StockName, StockIndustry, StockTotalmarketcapitalization = selectStockListSQL.selectStcokListData()
+    username = session.get('username', '游客')
+
     stocks = [
         {"id": StockID[i], "name": StockName[i], "industry": StockIndustry[i],
          "total_market_cap": StockTotalmarketcapitalization[i]}
         for i in range(len(StockID))
     ]
 
-    return render_template('StockList.html', stocks=stocks)
+    return render_template('StockList.html', stocks=stocks, username=username)
 
 
 @app.route('/StockInfo.html')
@@ -119,6 +127,8 @@ def StockInfo():
     postal_code, main_business, business_scope,\
     organization_profile = selectStockInfoSQL.getStockInfo(stock_name)
 
+    username = session.get('username', '游客')
+
     return render_template('StockInfo.html', stock_name=stock_name,
     company_name=company_name, english_name=english_name, former_abbreviation=former_abbreviation,
     a_share_code=a_share_code, a_share_abbreviation=a_share_abbreviation, industry_sector=industry_sector,
@@ -126,7 +136,7 @@ def StockInfo():
     listing_date=listing_date, official_website=official_website, email_address=email_address,
     contact_number=contact_number, fax=fax, registered_address=registered_address, office_address=office_address,
     postal_code=postal_code, main_business=main_business, business_scope=business_scope,
-    organization_profile=organization_profile)
+    organization_profile=organization_profile, username=username)
 
 
 @app.route('/StockOverview.html')
@@ -172,6 +182,8 @@ def StockOverview():
 
     all_empty = all(not item[1] for item in Rightactivities)
 
+    username = session.get('username', '游客')
+
     return render_template('StockOverview.html',
                            stock_id=stock_id, TopStockId=TopStockId,
                            TopStockName=TopStockName, TopStockIndustry=TopStockIndustry,
@@ -203,7 +215,7 @@ def StockOverview():
                            Basic=Basic, Netassets=Netassets, Capitalreserve=Capitalreserve,
                            Undistributedprofit=Undistributedprofit, Returnonequity=Returnonequity,
                            TotalincomeFloat=TotalincomeFloat, Totalincomegrowthrate=Totalincomegrowthrate,
-                           Netprofitmargin=Netprofitmargin, Grosssales=Grosssales
+                           Netprofitmargin=Netprofitmargin, Grosssales=Grosssales, username=username
                            )
 
 
@@ -267,12 +279,15 @@ def Top10StockShare():
         for i in range(len(StockNumber23))
     ]
 
+    username = session.get('username', '游客')
+
     return render_template('Top10StockShare.html', getStockName=getStockName,
                            StockShareTops=StockShareTops, SumProportion=SumProportion,
                            StockShareTops20=StockShareTops20, SumProportion20=SumProportion20,
                            StockShareTops21=StockShareTops21, SumProportion21=SumProportion21,
                            StockShareTops22=StockShareTops22, SumProportion22=SumProportion22,
-                           StockShareTops23=StockShareTops23, SumProportion23=SumProportion23
+                           StockShareTops23=StockShareTops23, SumProportion23=SumProportion23,
+                           username=username
                            )
 
 
@@ -297,10 +312,13 @@ def StockForecast():
     padding_length_forecastAge = len(Date1924) - len(AgeForecastClose)
     AgeForecastClose = [None] * padding_length_forecastAge + AgeForecastClose
 
+    username = session.get('username', '游客')
+
     return render_template('StockForecast.html',
                             Date1924=Date1924,
                             closeValue1923=closeValue1923, closeValue2024=closeValue2024,
-                            forecastClose=forecastClose, AgeForecastClose=AgeForecastClose)
+                            forecastClose=forecastClose, AgeForecastClose=AgeForecastClose,
+                            username=username)
 
 
 @app.route('/StockForecast300.html')
@@ -326,10 +344,12 @@ def StockForecast300():
     padding_length_forecastAge = len(Date1924) - len(AgeForecastClose)
     AgeForecastClose = [None] * padding_length_forecastAge + AgeForecastClose
 
+    username = session.get('username', '游客')
+
     return render_template('StockForecast300.html', StockName=StockName,
                            Date1924=Date1924, closeValue1923=closeValue1923,
                            closeValue2024=closeValue2024, forecastClose=forecastClose,
-                           AgeForecastClose=AgeForecastClose)
+                           AgeForecastClose=AgeForecastClose, username=username)
 
 if __name__ == '__main__':
     app.run()

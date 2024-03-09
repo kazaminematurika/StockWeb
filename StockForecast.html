@@ -102,13 +102,15 @@
         </a>
       </li>
 
-      <li class="nav-heading">用户</li>
-      <li>
-      <a class="nav-link collapsed" href="{{ url_for('userProfile') }}">
-          <i class="ri-admin-line"></i>
-          <span>个人主页</span>
-      </a>
-      </li>
+      {% if username != '游客' %}
+        <li class="nav-heading">用户</li>
+        <li>
+        <a class="nav-link collapsed" href="{{ url_for('userProfile') }}">
+            <i class="ri-admin-line"></i>
+            <span>个人主页</span>
+        </a>
+        </li>
+    {% endif %}
     </ul>
 
   </aside>
