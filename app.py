@@ -64,6 +64,7 @@ def register():
 @app.route('/userProfile.html', methods=['GET', 'POST'])
 def userProfile():
     username = session.get('username', '游客')
+
     if request.method == 'POST':
         OldPassword = request.form['oldpassword']
         NewPassword = request.form['newpassword']
@@ -84,7 +85,14 @@ def userProfile():
             # session['password'] = NewPassword
             return render_template('userProfile.html', message=changemes, username=username)
 
-    return render_template('userProfile.html', username=username)
+    user_StockID, user_StockName, user_Industry, user_Totalmarket = userStockSQL.selectUserAllStock(username)
+    user_stocks = [
+        {"id": user_StockID[i], "name": user_StockName[i], "industry": user_Industry[i],
+         "total_market_cap": user_Totalmarket[i]}
+        for i in range(len(user_StockID))
+    ]
+
+    return render_template('userProfile.html', username=username, user_stocks=user_stocks)
 
 
 @app.route('/CSI300index.html')

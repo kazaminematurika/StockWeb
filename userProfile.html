@@ -139,11 +139,11 @@
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">最受关注的行业</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">自选股</button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">最受关注的股票</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">最受关注</button>
                 </li>
               </ul>
               <div class="tab-content pt-2">
@@ -182,6 +182,38 @@
 
 
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                    <div class="card-body">
+                      <!-- Table with stripped rows -->
+                      <table class="table datatable">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">股票代码</th>
+                            <th scope="col">股票名称</th>
+                            <th scope="col">所属行业</th>
+                            <th scope="col">总市值(亿元)</th>
+                            <th scope="col">流通股东</th>
+                            <th scope="col">24年股价预测</th>
+                            <th scope="col">操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for stock in user_stocks %}
+                              <tr>
+                              <th scope="row">{{ loop.index }}</th>
+                              <td><a href="{{ url_for('StockOverview') }}?StockId={{ stock.id }}">{{ stock.id }}</a></td>
+                              <td><a href="{{ url_for('StockInfo') }}?StockName={{ stock.name }}">{{ stock.name }}</a></td>
+                              <td>{{ stock.industry }}</td>
+                              <td>{{ stock.total_market_cap }}</td>
+                              <td><a href="{{ url_for('Top10StockShare') }}?StockId={{ stock.id }}">{{ stock.name }} 股东信息</a></td>
+                              <td><a href="{{ url_for('StockForecast300') }}?StockId={{ stock.id }}">{{ stock.name }} 预测</a></td>
+                              </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                      <!-- End Table with stripped rows -->
+
+                    </div>
 
                 </div>
 
