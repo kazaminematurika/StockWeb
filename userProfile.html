@@ -152,6 +152,7 @@
 
                     <!-- Change Password Form -->
                   <form method="post">
+                  <input type="hidden" name="form_type" value="change_password">
                    {% if message %} {{message}} {% endif %}
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">旧密码</label>
@@ -207,6 +208,13 @@
                               <td>{{ stock.total_market_cap }}</td>
                               <td><a href="{{ url_for('Top10StockShare') }}?StockId={{ stock.id }}">{{ stock.name }} 股东信息</a></td>
                               <td><a href="{{ url_for('StockForecast300') }}?StockId={{ stock.id }}">{{ stock.name }} 预测</a></td>
+                              <td>
+                                  <form method="post">
+                                  <input type="hidden" name="form_type" value="delete_stock">
+                                  <input type="hidden" name="deleteStock" value="{{ stock.id }}">
+                                  <button type="submit" class="btn btn-primary w-100" name="deleteStock">删自选</button>
+                                  </form>
+                              </td>
                               </tr>
                             {% endfor %}
                         </tbody>

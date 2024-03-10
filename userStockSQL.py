@@ -40,3 +40,12 @@ def selectUserAllStock(username):
             Totalmarket.append(row[4])
 
         return StockId, StockName, Industry, Totalmarket
+
+
+def delUserStock(username, StockId):
+    if username != '游客':
+        with engine.connect() as connection:
+            with connection.begin():
+                qurey = text("delete from userstocklist where username = :user_name"
+                             " and userStockId = :user_StockId")
+                connection.execute(qurey, user_name=username, user_StockId=StockId)
