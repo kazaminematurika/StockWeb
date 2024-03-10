@@ -11,6 +11,7 @@ import SelectCSI300ForecastSQL
 import SelectStockForecastSQL
 from loginSQL import is_null, is_existed, exist_user
 from registerSQL import add_user
+from changePwSQL import change_is_null, oldPassword, rePassword
 
 app = Flask(__name__, static_folder='assets', template_folder='.')
 app.jinja_env.globals.update(zip=zip)
@@ -59,9 +60,29 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/userProfile.html')
+@app.route('/userProfile.html', methods=['GET', 'POST'])
 def userProfile():
     username = session.get('username', '游客')
+    if request.method == 'POST':
+        OldPassword = request.form['oldpassword']
+        NewPassword = request.form['newpassword']
+        RenewPassword = request.form['renewpassword']
+
+        if change_is_null(OldPassword, NewPassword, RenewPassword):
+            changemes = "密码输入框都需要填写"
+            return render_template('userProfile.html', message=changemes, username=username)
+        elif not oldPassword(username, OldPassword):
+            changemes = "旧密码不正确"
+            return render_template('userProfile.html', message=changemes, username=username)
+        elif not rePassword(NewPassword, RenewPassword, username):
+            changemes = "新密码和重复新密码不匹配"
+            return render_template('userProfile.html', message=changemes, username=username)
+        else:
+            changemes = "密码更新成功"
+            # 更新session中的密码信息可能需要，根据应用逻辑调整
+            # session['password'] = NewPassword
+            return render_template('userProfile.html', message=changemes, username=username)
+
     return render_template('userProfile.html', username=username)
 
 
