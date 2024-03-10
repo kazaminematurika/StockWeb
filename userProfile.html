@@ -6,6 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>用户界面</title>
+  <script src="https://cdn.staticfile.org/echarts/5.4.3/echarts.min.js"></script>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -228,14 +229,110 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
 
+                <div class="card-body">
+                    <h5 class="card-title">用户收藏前12的股票 <span>| 占全用户收藏:&nbsp;{{ top12StockName|tojson }}%</span></h5>
+                    <div id="userStockName" style="min-height: 500px;" class="echart"></div>
+                    <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      echarts.init(document.querySelector("#userStockName")).setOption({
+                        legend: {
+                            top: 'bottom'
+                          },
+                          toolbox: {
+                            show: true,
+                            feature: {
+                              mark: { show: true },
+                              dataView: { show: true, readOnly: false },
+                              restore: { show: true },
+                              saveAsImage: { show: true }
+                            }
+                          },
+                          series: [
+                            {
+                              name: 'Nightingale Chart',
+                              type: 'pie',
+                              radius: [50, 140],
+                              center: ['50%', '50%'],
+                              roseType: 'radius',
+                              itemStyle: {
+                                borderRadius: 12
+                              },
+                                label: {
+                                show: false
+                              },
+                              emphasis: {
+                                label: {
+                                  show: true,
+                                  formatter: '{b}: {d}%'
+                                }
+                              },
+                              data: [
+                                {% for stockname, count in zip(StockName, StockNamecounts) %}
+                                { value: {{ count }}, name: '{{ stockname }}' },
+                                {% endfor %}
+                                ]
+                            }
+                          ]
+                      });
+                    });
+                    </script>
                 </div>
 
+                <div class="card-body">
+                    <h5 class="card-title">用户收藏前12的行业 <span>| 占全用户收藏:&nbsp;{{ top12Industry|tojson }}%</span></h5>
+                    <div id="userStockIndustry" style="min-height: 500px;" class="echart"></div>
+                    <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      echarts.init(document.querySelector("#userStockIndustry")).setOption({
+                        legend: {
+                            top: 'bottom'
+                          },
+                          toolbox: {
+                            show: true,
+                            feature: {
+                              mark: { show: true },
+                              dataView: { show: true, readOnly: false },
+                              restore: { show: true },
+                              saveAsImage: { show: true }
+                            }
+                          },
+                          series: [
+                            {
+                              name: 'Nightingale Chart',
+                              type: 'pie',
+                              radius: [50, 140],
+                              center: ['50%', '50%'],
+                              roseType: 'radius',
+                              itemStyle: {
+                                borderRadius: 12
+                              },
+                                label: {
+                                show: false
+                              },
+                              emphasis: {
+                                label: {
+                                  show: true,
+                                  formatter: '{b}: {d}%'
+                                }
+                              },
+                              data: [
+                                {% for industry, count in zip(StockIndustry, StockIndustrycounts) %}
+                                { value: {{ count }}, name: '{{ industry }}' },
+                                {% endfor %}
+                                ]
+                            }
+                          ]
+                      });
+                    });
+                    </script>
+                </div>
+                </div>
+
+                </div>
               </div><!-- End Bordered Tabs -->
 
             </div>
           </div>
-
-        </div>
     </section>
 
   </main><!-- End #main -->

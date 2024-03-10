@@ -99,8 +99,12 @@ def userProfile():
          "total_market_cap": user_Totalmarket[i]}
         for i in range(len(user_StockID))
     ]
-
-    return render_template('userProfile.html', username=username, user_stocks=user_stocks)
+    StockName, StockNamecounts, top12StockName, StockIndustry,\
+        StockIndustrycounts, top12Industry = userStockSQL.selectTopStockNameAndIndustry()
+    return render_template('userProfile.html', username=username, user_stocks=user_stocks,
+                           StockName=StockName, StockNamecounts=StockNamecounts,
+                           top12StockName=top12StockName, StockIndustry=StockIndustry,
+                           StockIndustrycounts=StockIndustrycounts, top12Industry=top12Industry)
 
 
 @app.route('/CSI300index.html')
