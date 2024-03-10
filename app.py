@@ -12,6 +12,7 @@ import SelectStockForecastSQL
 from loginSQL import is_null, is_existed, exist_user
 from registerSQL import add_user
 from changePwSQL import change_is_null, oldPassword, rePassword
+import userStockSQL
 
 app = Flask(__name__, static_folder='assets', template_folder='.')
 app.jinja_env.globals.update(zip=zip)
@@ -123,7 +124,7 @@ def CSI300index():
                            )
 
 
-@app.route('/StockList.html')
+@app.route('/StockList.html', methods=['get', 'post'])
 def StockList():
     StockID, StockName, StockIndustry, StockTotalmarketcapitalization = selectStockListSQL.selectStcokListData()
     username = session.get('username', '游客')
@@ -134,7 +135,19 @@ def StockList():
         for i in range(len(StockID))
     ]
 
-    return render_template('StockList.html', stocks=stocks, username=username)
+    getUserStockList = userStockSQL.selectUserStockId(username)
+
+    if request.method == 'POST':
+        Stock_Id = request.form['StockId']
+        Stock_Name = request.form['StockName']
+        In_dustry = request.form['Industry']
+        Total_market = request.form['Totalmarket']
+
+        userStockSQL.addUserStockList(username, Stock_Id, Stock_Name, In_dustry, Total_market)
+        getUserStockList = userStockSQL.selectUserStockId(username)
+
+    return render_template('StockList.html', stocks=stocks, username=username,
+                           getUserStockList=getUserStockList)
 
 
 @app.route('/StockInfo.html')

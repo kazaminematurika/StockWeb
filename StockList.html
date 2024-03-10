@@ -147,6 +147,7 @@
                     <th scope="col">总市值(亿元)</th>
                     <th scope="col">流通股东</th>
                     <th scope="col">24年股价预测</th>
+                    {% if username != '游客' %}<th scope="col"> 加自选</th>{% endif %}
                   </tr>
                 </thead>
                 <tbody>
@@ -159,6 +160,21 @@
                       <td>{{ stock.total_market_cap }}</td>
                       <td><a href="{{ url_for('Top10StockShare') }}?StockId={{ stock.id }}">{{ stock.name[0] }} 股东信息</a></td>
                       <td><a href="{{ url_for('StockForecast300') }}?StockId={{ stock.id }}">{{ stock.name[0] }} 预测</a></td>
+                      {% if username != '游客' %}
+                        <td>
+                        {% if stock.id in getUserStockList %}
+                        该股票已在自选
+                        {% else %}
+                            <form method="post">
+                              <input type="hidden" name="StockId" value="{{ stock.id }}">
+                              <input type="hidden" name="StockName" value="{{ stock.name[0] }}">
+                              <input type="hidden" name="Industry" value="{{ stock.industry }}">
+                              <input type="hidden" name="Totalmarket" value="{{ stock.total_market_cap }}">
+                              <button type="submit" class="btn btn-primary w-100">加自选</button>
+                            </form>
+                        {% endif %}
+                        </td>
+                      {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

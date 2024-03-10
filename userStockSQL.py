@@ -1,0 +1,24 @@
+from sqlalchemy.sql import text
+import SQL
+
+engine = SQL.create_mysql_connection()
+
+def selectUserStockId(username):
+    if username != '游客':
+        UserstockId = []
+        query = text("select userStockId from userstocklist where username = :user_name")
+        result = engine.execute(query, user_name=username).fetchall()
+
+        for row in result:
+            UserstockId.append(row[0])
+
+        return UserstockId
+
+
+def addUserStockList(username, StockId, StockName, Industry, Totalmarket):
+    with engine.connect() as connection:
+        with connection.begin():
+            query = text("insert into userstocklist (username, userStockId, userStockName, userStockIndustry, userStockTotalmarket) VALUES"
+                         "(:user_name, :stock_id, :stock_name, :in_dustry, :total_market)")
+            connection.execute(query, user_name=username, stock_id=StockId, stock_name=StockName,
+                               in_dustry=Industry, total_market=Totalmarket)
