@@ -165,7 +165,11 @@
                 <h3>市场数据</h3>
                 <p>股票代码: {{ a_share_code }}
                 <br>证券名称: {{ a_share_abbreviation }}
-                <br>曾用名称:{{ former_abbreviation }}</p>
+                <br>曾用名称:{% if former_abbreviation %}
+                            {{ former_abbreviation }}
+                          {% else %}
+                            无 <!-- 空字符串可以用HTML的空格实体表示，确保单元格在视觉上保持一致 -->
+                          {% endif %}</p>
             </div>
 
             </div>
@@ -250,7 +254,11 @@
           <div class="card p-4">
               <div class="row gy-4">
                   <div class="ri-scan-2-line"></div>
-                  <p>经营范围: {{ business_scope }}</p>
+                  <p>经营范围: {% if  business_scope  %}
+                            {{ business_scope }}
+                          {% else %}
+                            与主营业务大同小异 <!-- 空字符串可以用HTML的空格实体表示，确保单元格在视觉上保持一致 -->
+                          {% endif %}</p>
               </div>
           </div>
           <div class="card p-4">
